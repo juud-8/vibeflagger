@@ -1,0 +1,158 @@
+# Vibe-Flagger
+
+A private relationship tracker app for flagging positive and negative behaviors with person-specific tracking and professional PDF export.
+
+## Features
+
+- **First-Time Onboarding**: Swipeable 4-card tutorial walkthrough that appears on first launch
+- **Lock Screen**: 4-digit PIN authentication for privacy
+- **Dashboard**: Visual "Vibe Meter" gauge showing overall relationship health
+  - **Side Drawer Menu**: Smooth animated drawer navigation with app info and menu items
+- **Quick Logging**: Three flag types for instant behavior tracking:
+  - Green Flag (positive behavior)
+  - Yellow Alert (concerning behavior)
+  - Red Flag (negative behavior)
+- **Logger Modal**: Smart person dropdown with quick-add, category, severity slider, and notes
+- **The Black Book (Profiles)**: List view of all tracked people with individual stats
+- **The Dossier (Profile Detail)**: Per-person analytics with Trust Score, vibe score, health status, and filtered logs with cyber-noir aesthetic
+  - **Profile Options Bottom Sheet**: Professional animated bottom sheet for Edit/Delete actions
+  - Edit Profile: Update name and relationship type
+  - Delete Profile: Remove profile with confirmation (sets logs to orphaned state)
+  - Edit Log: Tap any log entry to edit notes or delete the log
+  - Delete Log: Remove individual flag entries with vibe score recalculation
+- **The Vault**: Complete log history with swipe-to-delete
+- **The Receipts Generator**: Export individual profile reports as professional PDF documents with full audit trail
+
+## Tech Stack
+
+- **Expo SDK 53** with React Native
+- **expo-sqlite** for local encrypted database with profiles and logs tables
+- **expo-print** + **expo-sharing** for PDF generation and sharing
+- **Nativewind/TailwindCSS** for dark-mode cyber-security styling
+- **React Navigation** native stack for navigation
+- **Zustand** with AsyncStorage for auth state
+- **react-native-reanimated** for animations
+- **react-native-gesture-handler** for swipe gestures
+
+## Data Schema (SQLite)
+
+```sql
+CREATE TABLE profiles (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  relationship TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  timestamp TEXT NOT NULL,
+  person TEXT NOT NULL,
+  profile_id INTEGER,
+  type TEXT NOT NULL CHECK(type IN ('GREEN', 'YELLOW', 'RED')),
+  severity INTEGER NOT NULL CHECK(severity >= 1 AND severity <= 10),
+  category TEXT NOT NULL,
+  notes TEXT,
+  FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE SET NULL
+);
+```
+
+## Toxicity Algorithm
+
+The Vibe Meter calculates toxicity percentage (0% = Angelic, 100% = Radioactive):
+
+- **Red Flag**: Adds severity directly to toxicity sum
+- **Yellow Flag**: Adds severity ÷ 2
+- **Green Flag**: Subtracts severity from toxicity sum
+- **Normalization**: `(toxicity sum / (count × 10)) × 100`
+
+Example: 3 Red Flags @ severity 10 = 30 toxicity ÷ 30 max = **100%**
+
+## Screens
+
+1. **LockScreen** - PIN entry with number pad
+2. **SetupPinScreen** - First-time PIN creation with confirmation
+3. **DashboardScreen** - Vibe Meter gauge + quick flag buttons + navigation to Profiles/Vault/Export
+4. **ProfilesScreen (The Black Book)** - List of all tracked people with stats cards and floating add button
+5. **ProfileDetailScreen (The Dossier)** - Cyber-noir case file aesthetic with:
+   - Subject ID header with monospace font
+   - Large Trust Score display (inverse of toxicity, color-coded)
+   - Health Status badge
+   - Toxicity Analysis card
+   - Terminal-style log entries with neon left borders
+   - Generate Report button (PDF export)
+6. **LoggerModal** - Person dropdown (with quick-add), category selector, severity slider, notes
+7. **VaultScreen** - Complete history list with swipe-to-delete + export button
+
+## Person Profiles & Individual Stats
+
+Each profile tracks:
+- **Trust Score**: 0-100% inverse of toxicity (High Trust ≥75%, Moderate Trust ≥50%, Low Trust <50%)
+- **Vibe Score**: 0-100% toxicity calculated from their logs
+- **Health Status**: Thriving (0%), Stable, Concerning (25%+), Toxic (50%+), Critical (>75%)
+- **Flag Breakdown**: Red, Yellow, Green counts
+- **Last Flag Date**: Most recent log timestamp
+- **Relationship Type**: Partner, Ex, Family, Friend, Boss, Coworker, Other
+
+## PDF Export ("The Receipts")
+
+The "Receipts Generator" creates a professional, cyber-noir styled audit report per person:
+- **Header**: "RELATIONSHIP AUDIT: [Person Name]" with relationship type and Subject ID
+- **Executive Summary**:
+  - Total Incidents
+  - Red/Yellow/Green flag counts
+  - Average Severity Score
+  - Toxicity Score percentage
+  - Health Status classification
+- **Chronological Incident Log Table**:
+  - Date/Time (oldest to newest)
+  - Type badge (color-coded)
+  - Severity score (1-10, color-coded)
+  - Category
+  - Notes
+  - Neon border on each row matching flag type
+- **Footer**: "Generated by Vibe-Flagger Secure Vault" with generation timestamp
+- **Sharing**: Opens native iOS/Android share sheet for save/text/email
+
+## Design
+
+- **Cyber-Tactical Design System** (V1.0):
+  - Ultra-dark background (#050508) with surface cards (#0D0D12)
+  - Monospace font for case file/terminal look
+  - Uppercase labels with wide letter-spacing
+  - Terminal-style log entries with command prompt indicators (">")
+  - KeyboardAvoidingView on all input screens for iOS/Android keyboard handling
+- **Color System**:
+  - Cyber Green (#00FF9C) for positive/healthy/high trust
+  - Cyber Yellow (#FFD600) for warnings/moderate trust
+  - Cyber Red (#FF0055) for negative/toxic/low trust
+  - Cyber Cyan (#00F0FF) for accents and profile borders
+  - Border color (#1A1A24) for cards and dividers
+- **UI Elements**:
+  - Simplified Dashboard header with hamburger menu
+  - Thinner Vibe Meter gauge with glowing indicator
+  - Sci-fi style flag buttons with icon boxes
+  - Watchlist with red-highlighted FLAGS label
+  - 2-column grid layout on Profile Detail (Trust Score + Flag Counts)
+  - Transparent PIN buttons with subtle borders
+  - Square FAB with rounded corners on Black Book
+- **Modern UI Components**:
+  - **ProfileOptionsBottomSheet**: Animated bottom sheet for profile actions
+    - Slides up from bottom with spring animation
+    - Rounded top corners (20px radius)
+    - Dim overlay background
+    - Edit and Delete options with icons
+    - Bold Cancel button separated by divider
+  - **SideDrawer**: Animated side navigation drawer
+    - Slides in from left with smooth animation
+    - 75% screen width
+    - Header with VibeFlagger branding
+    - Menu items with circular icon backgrounds
+    - Version footer at bottom
+    - Closes on outside tap or menu selection
+- **Animations**:
+  - Red pulsing animation for critical toxicity (>75%)
+  - Profile cards with dynamic health status badges
+  - Haptic feedback on PDF generation and swipe gestures
+  - React Native Reanimated for smooth bottom sheet and drawer transitions
+

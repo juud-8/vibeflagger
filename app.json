@@ -1,0 +1,88 @@
+{
+  "expo": {
+    "name": "Vibe-Flagger",
+    "slug": "vibeflagger",
+    "scheme": "vibeflagger",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#050508"
+    },
+    "newArchEnabled": true,
+    "description": "Private relationship tracker for flagging positive and negative behaviors with professional PDF export. Track trust scores, behavioral patterns, and maintain detailed logs with complete privacy.",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "privacy": "unlisted",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jd.vibeflagger",
+      "buildNumber": "1",
+      "requireFullScreen": false,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Vibe-Flagger uses Face ID to securely protect your private relationship logs.",
+        "NSPhotoLibraryAddUsageDescription": "Vibe-Flagger needs permission to save your Relationship Audit PDF to your photo library.",
+        "NSPhotoLibraryUsageDescription": "Vibe-Flagger needs permission to access your photo library to save PDF reports.",
+        "UIBackgroundModes": [],
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.jd.vibeflagger",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#050508"
+      },
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "newArchEnabled": true
+          },
+          "android": {
+            "newArchEnabled": true
+          }
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-asset",
+      "expo-font",
+      "expo-mail-composer",
+      "expo-secure-store",
+      "expo-sqlite",
+      "expo-video",
+      "expo-web-browser"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1ecdcf89"
+      }
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
