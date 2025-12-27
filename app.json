@@ -18,7 +18,6 @@
       "ios",
       "android"
     ],
-    "privacy": "unlisted",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jd.vibeflagger",
