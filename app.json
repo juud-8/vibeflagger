@@ -63,6 +63,7 @@
           }
         }
       ],
+      "./plugins/withRCTFollyFix.js",
       "@react-native-community/datetimepicker",
       "expo-asset",
       "expo-font",
