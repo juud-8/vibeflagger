@@ -24,7 +24,6 @@
       "buildNumber": "1",
       "requireFullScreen": false,
       "infoPlist": {
-        "NSFaceIDUsageDescription": "Vibe-Flagger uses Face ID to securely protect your private relationship logs.",
         "NSPhotoLibraryAddUsageDescription": "Vibe-Flagger needs permission to save your Relationship Audit PDF to your photo library.",
         "NSPhotoLibraryUsageDescription": "Vibe-Flagger needs permission to access your photo library to save PDF reports.",
         "UIBackgroundModes": [],
