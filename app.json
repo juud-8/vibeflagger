@@ -73,16 +73,17 @@
       "expo-video",
       "expo-web-browser"
     ],
-    "extra": {
-      "eas": {
-        "projectId": "1ecdcf89"
-      }
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1ecdcf89-4193-417b-9220-cd04d78e6938"
+      }
+    }
   }
 }
